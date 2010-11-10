@@ -35,9 +35,10 @@ function nbhstats_verify_postcode($postcode) {
 
 function nbhstats_create_nbhstats_link($address) {
 	$address['postal_code']=urlencode($address['postal_code']);
-	
-	//TODO: finish and sanitize module
-	CRM_Core_DAO::executeQuery("REPLACE INTO civicrm_value_neighbourhood_stats SET entity_id={$address['id']}, link='http://neighbourhood.statistics.gov.uk/dissemination/NeighbourhoodSummary.do?width=0&i=0&profileSearchText={$address['postal_code']}'", array());
+	$link="<a href='http://neighbourhood.statistics.gov.uk/dissemination/NeighbourhoodSummary.do?width=0&i=0&profileSearchText={$address['postal_code']}'>Neighbourhood stats</a>";
+	$params[1] = array( $address['id'], 'Integer');
+	$params[2] = array( $link, 'String');
+	CRM_Core_DAO::executeQuery("REPLACE INTO civicrm_value_neighbourhood_stats SET entity_id=%1, link=%2, $params);
 }
 
 
