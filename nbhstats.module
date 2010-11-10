@@ -16,9 +16,6 @@ function nbhstats_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
 	);
 	$locations = civicrm_location_get($params);
 	foreach($locations as $location){
-		if(!nbhstats_verify_postcode($location['address']['postal_code'])){
-			break;
-		}
 		nbhstats_create_nbhstats_link($location['address']);
 	};
 		
@@ -27,17 +24,20 @@ function nbhstats_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
 function nbhstats_verify_postcode($postcode) {
 	//TODO: nice (REGEXP or API) based verifcation
 	
-	if ($postcode == ''){
-		return FALSE;
-	}
 	return TRUE;
 }
 
 function nbhstats_create_nbhstats_link($address) {
+	if(strlen($address['postal_code']) == 0 && nbhstats_verify_postcode($address['postal_code'])){
+		$link='';
+	} else {
+		$link="<a href=\"http://neighbourhood.statistics.gov.uk/dissemination/NeighbourhoodSummary.do?width=0&i=0&profileSearchText={$address['postal_code']}\" target=\"_blank\">Neighbourhood stats</a>";
+	}
 	$address['postal_code']=urlencode($address['postal_code']);
-	$link="<a href='http://neighbourhood.statistics.gov.uk/dissemination/NeighbourhoodSummary.do?width=0&i=0&profileSearchText={$address['postal_code']}' target='_blank'>Neighbourhood stats</a>";
+
 	$params[1] = array( $address['id'], 'Integer');
 	$params[2] = array( $link, 'String');
+		
 	CRM_Core_DAO::executeQuery("REPLACE INTO civicrm_value_neighbourhood_stats SET entity_id=%1, link=%2", $params);
 }
 
