@@ -18,6 +18,7 @@
       <created_date>2010-11-02 09:29:16</created_date>
     </CustomGroup>
   </CustomGroups>
+  <CustomFields>
     <CustomField>
       <label>Link</label>
       <data_type>Link</data_type>
