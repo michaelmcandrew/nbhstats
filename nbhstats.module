@@ -16,7 +16,9 @@ function nbhstats_civicrm_post( $op, $objectName, $objectId, &$objectRef ) {
 	);
 	$locations = civicrm_location_get($params);
 	foreach($locations as $location){
-		nbhstats_create_nbhstats_link($location['address']);
+		if(is_array($location['address'])){
+			nbhstats_create_nbhstats_link($location['address']);			
+		}
 	};
 		
 }
