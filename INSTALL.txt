@@ -13,3 +13,4 @@ By default 'pathtoCustomGroupData.xml' will be
 
 /path_to_drupal_root/sites/all/modules/nbhstats/CustomGroupData.xml
 
+4) (optional) run the batch process to update all postcodes.  The batch process requires you to be logged in with administer CiviCRM permissions.  Point your browser to http://yourdomain.org/civicrm/nbhstats/batch
